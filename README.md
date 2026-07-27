@@ -1,64 +1,103 @@
-# Astro Starter Kit: Blog
+# portfolio
 
-[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/cloudflare/templates/tree/main/astro-blog-starter-template)
+yuji のポートフォリオサイト。Astro で構築し、Cloudflare Workers に静的サイトとして配信している。
+仕様は [design.md](./design.md) を参照。
 
-![Astro Template Preview](https://github.com/withastro/astro/assets/2244813/ff10799f-a816-4703-b967-c78997e8323d)
+## 画面
 
-<!-- dash-content-start -->
+| パス                  | 内容                                             |
+| :-------------------- | :----------------------------------------------- |
+| `/`                   | ランディング(制作物・記事の抜粋と連絡先)       |
+| `/products`           | 制作物一覧(GitHub / 紹介ページへのリンク付き)  |
+| `/products/<slug>`    | 制作物の紹介ページ                               |
+| `/blogs`              | 記事一覧(タグで絞り込み可能)                  |
+| `/blogs/<slug>`       | 記事本文                                         |
+| `/introduction`       | 自己紹介                                         |
+| `/rss.xml`            | RSS フィード                                     |
 
-Create a blog with Astro and deploy it on Cloudflare Workers as a [static website](https://developers.cloudflare.com/workers/static-assets/).
+バックエンドは持たない。コンテンツはすべてリポジトリ内の Markdown と TypeScript で管理している。
 
-Features:
+## コマンド
 
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and OpenGraph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
-- ✅ Built-in Observability logging
+| コマンド        | 内容                                              |
+| :-------------- | :------------------------------------------------ |
+| `npm install`   | 依存関係をインストール                            |
+| `npm run dev`   | 開発サーバーを `localhost:4321` で起動            |
+| `npm run build` | `./dist/` に本番ビルド                            |
+| `npm run check` | ビルド + 型チェック + wrangler の設定検証         |
+| `npm run preview` | ビルドして Workers ランタイムでローカル確認      |
+| `npm run deploy`  | 手動デプロイ(通常は CI に任せる)              |
 
-<!-- dash-content-end -->
+## コンテンツの追加
 
-## Getting Started
+### 記事
 
-Outside of this repo, you can start a new project with this template using [C3](https://developers.cloudflare.com/pages/get-started/c3/) (the `create-cloudflare` CLI):
+`src/content/blog/` に Markdown を追加する。frontmatter は `src/content.config.ts` の
+スキーマで検証されるので、必須項目が欠けているとビルドが失敗する。
 
-```bash
-npm create cloudflare@latest -- --template=cloudflare/templates/astro-blog-starter-template
+```yaml
+---
+title: "記事タイトル"
+description: "一覧とOGPに出る一行説明"
+pubDate: 2026-07-01
+tags: ["Astro", "TypeScript"] # 一覧の絞り込みに使われる
+draft: false # true の間は公開されない
+---
 ```
 
-A live public deployment of this template is available at [https://astro-blog-starter-template.templates.workers.dev](https://astro-blog-starter-template.templates.workers.dev)
+### 制作物
 
-## 🚀 Project Structure
+`src/content/products/` に Markdown を追加する。`src/content/products/sample-web-app.md`
+がテンプレートになっている(`draft: true` なので公開されない)。
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+```yaml
+---
+title: "プロダクト名"
+description: "一覧カードに出る一行説明"
+date: 2026-04-01
+stack: ["TypeScript", "React"]
+github: "https://github.com/..." # 省略可
+demo: "https://..." # 省略可
+role: "個人開発"
+order: 1 # 小さいほど一覧の先頭に出る
+---
+```
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+### プロフィール
 
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
+- 名前・肩書き・SNS リンク: `src/consts.ts`
+- 自己紹介ページのスキル / 経歴 / 価値観: `src/data/profile.ts`
 
-Any static assets, like images, can be placed in the `public/` directory.
+## デザイン
 
-## 🧞 Commands
+配色とフォントは `src/styles/global.css` の `:root` にトークンとしてまとめてある。
 
-All commands are run from the root of the project, from a terminal:
+| トークン     | 値        | 用途                        |
+| :----------- | :-------- | :-------------------------- |
+| 白           | `#FFFFFF` | 背景                        |
+| チャコール黒 | `#4A4A4A` | 本文・見出し                |
+| クールグレー | `#CBCBCB` | 罫線・タグの枠              |
+| ブルーグレー | `#6D8196` | アクセント(リンク・ボタン) |
 
-| Command                           | Action                                           |
-| :-------------------------------- | :----------------------------------------------- |
-| `npm install`                     | Installs dependencies                            |
-| `npm run dev`                     | Starts local dev server at `localhost:4321`      |
-| `npm run build`                   | Build your production site to `./dist/`          |
-| `npm run preview`                 | Preview your build locally, before deploying     |
-| `npm run astro ...`               | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help`         | Get help using the Astro CLI                     |
-| `npm run build && npm run deploy` | Deploy your production site to Cloudflare        |
-| `npm wrangler tail`               | View real-time logs for all Workers              |
+カード等の面には、クールグレーを薄めた寒色グレー(`--surface: #F8F9FA` /
+`--surface-sunken: #F1F3F5`)を使う。design.md のソフトアイボリー `#FFFFE3` は
+背景が白のため面には使っていない。
 
-## 👀 Want to learn more?
+フォントは Google Fonts から読み込んでいる(見出し: Space Grotesk / 本文: Inter /
+コード: JetBrains Mono)。日本語はシステムフォントにフォールバックする。
 
-Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## デプロイ
 
-## Credit
+`main` への push で `.github/workflows/deploy.yml` が動き、ビルドして Cloudflare Workers に
+公開される。Pull Request では `ci.yml` がビルドと型チェックだけを回す。
 
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+初回だけ、GitHub リポジトリの **Settings → Secrets and variables → Actions** に以下を登録する。
+
+| Secret                  | 取得元                                                              |
+| :---------------------- | :------------------------------------------------------------------ |
+| `CLOUDFLARE_API_TOKEN`  | Cloudflare ダッシュボード → My Profile → API Tokens → **Edit Cloudflare Workers** テンプレート |
+| `CLOUDFLARE_ACCOUNT_ID` | Cloudflare ダッシュボードの Workers & Pages 画面の右側に表示される  |
+
+デプロイ先の Worker 名は `wrangler.json` の `name`、公開 URL は `astro.config.mjs` の
+`site` で設定する。独自ドメインを割り当てたら `site` を必ず書き換える(canonical URL、
+sitemap、RSS のリンクに使われる)。
