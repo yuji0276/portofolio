@@ -1,0 +1,32 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHeader from "../components/PageHeader.astro";
+---
+
+<Base title="ページが見つかりません" description="お探しのページは見つかりませんでした。">
+	<PageHeader
+		eyebrow="404"
+		title="ページが見つかりません"
+		lead="URL が変わったか、削除された可能性があります。"
+	/>
+
+	<div class="wrap body">
+		<div class="actions">
+			<a class="button" href="/">トップへ戻る</a>
+			<a class="button button--ghost" href="/products">制作物一覧</a>
+			<a class="button button--ghost" href="/blogs">記事一覧</a>
+		</div>
+	</div>
+</Base>
+
+<style>
+	.body {
+		padding-block: clamp(2.5rem, 6vw, 3.5rem) clamp(4rem, 10vw, 6rem);
+	}
+
+	.actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+	}
+</style>

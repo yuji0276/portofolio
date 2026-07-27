@@ -1,0 +1,243 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHeader from "../components/PageHeader.astro";
+import { PROFILE, SOCIAL_LINKS } from "../consts";
+import { INTRO_LEAD, SKILLS, TIMELINE, VALUES } from "../data/profile";
+---
+
+<Base
+	title="自己紹介"
+	description={`${PROFILE.name} の経歴、スキル、大事にしていること。`}
+>
+	<PageHeader eyebrow="About" title="自己紹介" />
+
+	<div class="wrap body">
+		<section class="intro">
+			<div class="prose">
+				{INTRO_LEAD.split("\n").map((line) => <p>{line}</p>)}
+			</div>
+
+			<aside class="card profile">
+				<dl>
+					<div>
+						<dt>名前</dt>
+						<dd>{PROFILE.name}</dd>
+					</div>
+					<div>
+						<dt>職種</dt>
+						<dd>{PROFILE.role}</dd>
+					</div>
+					<div>
+						<dt>拠点</dt>
+						<dd>{PROFILE.location}</dd>
+					</div>
+					<div>
+						<dt>連絡先</dt>
+						<dd><a href={`mailto:${PROFILE.email}`}>{PROFILE.email}</a></dd>
+					</div>
+					<div>
+						<dt>リンク</dt>
+						<dd>
+							<ul class="socials">
+								{
+									SOCIAL_LINKS.map((link) => (
+										<li>
+											<a href={link.href} target="_blank" rel="me noopener noreferrer">
+												{link.label}
+											</a>
+										</li>
+									))
+								}
+							</ul>
+						</dd>
+					</div>
+				</dl>
+			</aside>
+		</section>
+
+		<section>
+			<h2>スキル</h2>
+			<div class="skills">
+				{
+					SKILLS.map((group) => (
+						<div class="skill-group">
+							<h3>{group.category}</h3>
+							<ul>
+								{group.items.map((item) => (
+									<li class="tag">{item}</li>
+								))}
+							</ul>
+						</div>
+					))
+				}
+			</div>
+		</section>
+
+		<section>
+			<h2>これまで</h2>
+			<ol class="timeline">
+				{
+					TIMELINE.map((entry) => (
+						<li>
+							<p class="period">{entry.period}</p>
+							<div>
+								<h3>{entry.title}</h3>
+								<p class="body-text">{entry.body}</p>
+							</div>
+						</li>
+					))
+				}
+			</ol>
+		</section>
+
+		<section>
+			<h2>大事にしていること</h2>
+			<div class="values">
+				{
+					VALUES.map((value) => (
+						<div class="card">
+							<h3>{value.heading}</h3>
+							<p class="body-text">{value.body}</p>
+						</div>
+					))
+				}
+			</div>
+		</section>
+	</div>
+</Base>
+
+<style>
+	.body {
+		padding-block: clamp(2.5rem, 6vw, 3.5rem) clamp(3rem, 7vw, 4.5rem);
+	}
+
+	.body > section + section {
+		margin-top: clamp(3rem, 7vw, 4.5rem);
+	}
+
+	.intro {
+		display: grid;
+		grid-template-columns: minmax(0, 1.6fr) minmax(260px, 1fr);
+		gap: clamp(2rem, 5vw, 3.5rem);
+		align-items: start;
+	}
+
+	.profile dl {
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+
+	.profile dt {
+		font-family: var(--font-mono);
+		font-size: 0.7rem;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--text-muted);
+		margin-bottom: 0.25rem;
+	}
+
+	.profile dd {
+		margin: 0;
+		font-size: 0.95rem;
+	}
+
+	.socials {
+		display: flex;
+		gap: 1rem;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		flex-wrap: wrap;
+	}
+
+	.socials li {
+		margin: 0;
+	}
+
+	.skills {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+		gap: 1.75rem;
+	}
+
+	.skill-group h3 {
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		font-weight: 500;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--text-muted);
+		margin-bottom: 0.75rem;
+	}
+
+	.skill-group ul {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.4rem;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.skill-group li {
+		margin: 0;
+	}
+
+	.timeline {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		border-top: 1px solid var(--line-soft);
+	}
+
+	.timeline li {
+		display: grid;
+		grid-template-columns: minmax(140px, max-content) minmax(0, 1fr);
+		gap: 1rem 2.5rem;
+		margin: 0;
+		padding-block: 1.75rem;
+		border-bottom: 1px solid var(--line-soft);
+	}
+
+	.period {
+		font-family: var(--font-mono);
+		font-size: 0.85rem;
+		color: var(--text-muted);
+		margin: 0;
+	}
+
+	.timeline h3 {
+		margin: 0 0 0.5rem;
+		font-size: 1.15rem;
+	}
+
+	.body-text {
+		margin: 0;
+		max-width: var(--measure);
+		color: var(--text-muted);
+		font-size: 0.95rem;
+	}
+
+	.values {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+		gap: 1.25rem;
+	}
+
+	.values h3 {
+		margin: 0 0 0.6rem;
+		font-size: 1.1rem;
+	}
+
+	@media (max-width: 760px) {
+		.intro {
+			grid-template-columns: 1fr;
+		}
+		.timeline li {
+			grid-template-columns: 1fr;
+			gap: 0.5rem;
+		}
+	}
+</style>

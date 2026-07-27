@@ -1,17 +1,26 @@
 ---
 interface Props {
 	date: Date;
+	/** 年月のみ表示する(制作物の時期など) */
+	monthOnly?: boolean;
 }
 
-const { date } = Astro.props;
+const { date, monthOnly = false } = Astro.props;
+
+const formatted = date.toLocaleDateString("ja-JP", {
+	year: "numeric",
+	month: monthOnly ? "long" : "2-digit",
+	...(monthOnly ? {} : { day: "2-digit" }),
+});
 ---
 
-<time datetime={date.toISOString()}>
-	{
-		date.toLocaleDateString('en-us', {
-			year: 'numeric',
-			month: 'short',
-			day: 'numeric',
-		})
+<time datetime={date.toISOString()}>{formatted}</time>
+
+<style>
+	time {
+		font-family: var(--font-mono);
+		font-size: 0.8rem;
+		color: var(--text-muted);
+		font-variant-numeric: tabular-nums;
 	}
-</time>
+</style>
