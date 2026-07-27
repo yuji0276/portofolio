@@ -72,6 +72,11 @@ body {
 	font-feature-settings: "palt";
 	word-wrap: break-word;
 	overflow-wrap: break-word;
+	/*
+	  日本語が語の途中で折り返されるのを防ぐ(文節単位で改行する)。
+	  非対応ブラウザではこの宣言が無視され、従来の文字単位の折り返しになる。
+	*/
+	word-break: auto-phrase;
 	-webkit-font-smoothing: antialiased;
 	display: flex;
 	flex-direction: column;
@@ -161,6 +166,12 @@ pre {
 pre > code {
 	all: unset;
 	font-family: var(--font-mono);
+}
+
+/* コードは文節解析の対象外にする(body から継承させない) */
+pre,
+code {
+	word-break: normal;
 }
 
 /* Shiki はテーマの背景色をインラインで書き込むので、パレットに合わせて上書きする */

@@ -115,6 +115,15 @@ const posts = (await getCollection("blog", ({ data }) => !data.draft))
 		border-bottom: 1px solid var(--line-soft);
 	}
 
+	/*
+	  肩書きには GDGoC のように大文字小文字が決まった固有名詞が入るため、
+	  ここだけ大文字変換しない。字送りも小文字向けに詰める。
+	*/
+	.hero .eyebrow {
+		text-transform: none;
+		letter-spacing: 0.04em;
+	}
+
 	.hero h1 {
 		margin: 0;
 		font-size: clamp(2.75rem, 1.8rem + 4.5vw, 5rem);
