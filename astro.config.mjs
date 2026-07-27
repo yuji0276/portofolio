@@ -7,8 +7,10 @@ import cloudflare from "@astrojs/cloudflare";
 
 // https://astro.build/config
 export default defineConfig({
-	// TODO: 独自ドメインを設定したら差し替える(canonical URL / sitemap / RSS に使われる)
-	site: "https://portofolio.yuji0276.workers.dev",
+	// canonical URL / sitemap / RSS に使われる。Worker には
+	// portofolio.yujikami0110.workers.dev でもアクセスできるが、
+	// 正規URLはカスタムドメインの方に統一する。
+	site: "https://yuji0276.dev",
 	integrations: [mdx(), sitemap()],
 	markdown: {
 		// 既定の暗いテーマだとアイボリー背景から浮くので明るいテーマにする。
