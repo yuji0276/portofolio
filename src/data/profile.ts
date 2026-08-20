@@ -39,7 +39,7 @@ export const TIMELINE: TimelineEntry[] = [
   {
     period: "2026年3月",
     title: "ハッカソン初出場",
-    body: "初めてインフラを触ってインフラの面白さに気づく。",
+    body: "初めてインフラを触ってインフラの面白さに気づく",
   },
   {
     period: "2025年夏",
