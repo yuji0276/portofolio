@@ -1,4 +1,5 @@
 {
+	"$schema": "./node_modules/wrangler/config-schema.json",
 	"name": "portofolio",
 	"compatibility_date": "2025-10-08",
 	"compatibility_flags": ["nodejs_compat"],
@@ -7,6 +8,13 @@
 		"directory": "./dist",
 		"binding": "ASSETS"
 	},
+	"routes": [
+		{
+			"pattern": "yuji0276.dev",
+			"custom_domain": true
+		}
+	],
+	"workers_dev": true,
 	"observability": {
 		"enabled": true
 	},
