@@ -19,14 +19,16 @@ yuji のポートフォリオサイト。Astro で構築し、Cloudflare Workers
 
 ## コマンド
 
+パッケージマネージャーは pnpm を使う(バージョンは `package.json` の `packageManager` で固定)。
+
 | コマンド        | 内容                                              |
 | :-------------- | :------------------------------------------------ |
-| `npm install`   | 依存関係をインストール                            |
-| `npm run dev`   | 開発サーバーを `localhost:4321` で起動            |
-| `npm run build` | `./dist/` に本番ビルド                            |
-| `npm run check` | ビルド + 型チェック + wrangler の設定検証         |
-| `npm run preview` | ビルドして Workers ランタイムでローカル確認      |
-| `npm run deploy`  | 手動デプロイ(通常は CI に任せる)              |
+| `pnpm install`   | 依存関係をインストール                            |
+| `pnpm run dev`   | 開発サーバーを `localhost:4321` で起動            |
+| `pnpm run build` | `./dist/` に本番ビルド                            |
+| `pnpm run check` | ビルド + 型チェック + wrangler の設定検証         |
+| `pnpm run preview` | ビルドして Workers ランタイムでローカル確認      |
+| `pnpm run deploy`  | 手動デプロイ(通常は CI に任せる)              |
 
 ## コンテンツの追加
 
